@@ -18,13 +18,14 @@ class _LoginPageState extends State<LoginPage> {
     String password = _passwordController.text;
 
     // Realizar la validación de inicio de sesión
+    // Realizar la validación de inicio de sesión
     bool isLoggedIn = await User.login(username, password);
 
     if (isLoggedIn) {
       // Inicio de sesión exitoso
-      Navigator.pushReplacement(
+      var pushReplacement = Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage(user: User())),
+        MaterialPageRoute(builder: (context) => HomePage()),
       );
     } else {
       // Inicio de sesión fallido

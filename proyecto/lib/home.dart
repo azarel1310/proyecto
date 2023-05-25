@@ -3,10 +3,6 @@ import 'package:proyecto/perfil.dart';
 import 'package:proyecto/user.dart';
 
 class HomePage extends StatelessWidget {
-  final User user;
-
-  HomePage({required this.user});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,11 +10,18 @@ class HomePage extends StatelessWidget {
         title: Text('Home'),
       ),
       body: Center(
-        child: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            // Acciones a realizar cuando se presione el botón circular
-          },
+        child: SizedBox(
+          width: 200.0,
+          height: 200.0,
+          child: FloatingActionButton(
+            child: Icon(
+              Icons.call_sharp,
+              size: 100.0,
+            ),
+            onPressed: () {
+              // Acciones a realizar cuando se presione el botón circular
+            },
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -29,29 +32,18 @@ class HomePage extends StatelessWidget {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Buscar',
+            icon: Icon(Icons.insert_drive_file),
+            label: 'Información',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favoritos',
+            icon: Icon(Icons.location_on_outlined),
+            label: 'Localización',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Perfil',
           ),
         ],
-        onTap: (int index) {
-          if (index == 3) {
-            // Navegar a la página de perfil
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ProfilePage(user: user),
-              ),
-            );
-          }
-        },
       ),
     );
   }
