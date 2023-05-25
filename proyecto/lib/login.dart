@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/registro.dart';
+import 'package:proyecto/user.dart';
+
+import 'home.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -10,16 +13,18 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  void _login() {
+  void _login() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
     // Realizar la validación de inicio de sesión
-    if (username == 'usuario' && password == 'contraseña') {
+    bool isLoggedIn = await User.login(username, password);
+
+    if (isLoggedIn) {
       // Inicio de sesión exitoso
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => HomePage(user: User())),
       );
     } else {
       // Inicio de sesión fallido

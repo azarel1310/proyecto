@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:proyecto/user.dart';
 
-class RegisterPage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
+  final User user;
+
+  ProfilePage({required this.user});
+
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _usernameController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _maternalLastNameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
@@ -18,11 +20,23 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _emergencyContactController = TextEditingController();
   TextEditingController _emergencyPhoneController = TextEditingController();
 
-  void _register() {
-    // Obtener los valores de los controladores de texto
-    String username = _usernameController.text;
-    String password = _passwordController.text;
+  @override
+  void initState() {
+    super.initState();
+    // Inicializar los controladores de texto con los datos del usuario
+    _usernameController.text = widget.user.username;
+    _lastNameController.text = widget.user.lastName;
+    _maternalLastNameController.text = widget.user.maternalLastName;
+    _phoneController.text = widget.user.phone;
+    _neighborhoodController.text = widget.user.neighborhood;
+    _postalCodeController.text = widget.user.postalCode;
+    _emergencyContactController.text = widget.user.emergencyContact;
+    _emergencyPhoneController.text = widget.user.emergencyPhone;
+  }
 
+  void _modifyUser() {
+    // Obtener los nuevos valores de los controladores de texto
+    String username = _usernameController.text;
     String lastName = _lastNameController.text;
     String maternalLastName = _maternalLastNameController.text;
     String phone = _phoneController.text;
@@ -31,32 +45,30 @@ class _RegisterPageState extends State<RegisterPage> {
     String emergencyContact = _emergencyContactController.text;
     String emergencyPhone = _emergencyPhoneController.text;
 
-    // Lógica para registrar al usuario
-    User.register(
-      username,
-      password,
-      lastName,
-      maternalLastName,
-      phone,
-      neighborhood,
-      postalCode,
-      emergencyContact,
-      emergencyPhone,
+    // Modificar los datos del usuario
+    widget.user.modifyUser(
+      username: username,
+      lastName: lastName,
+      maternalLastName: maternalLastName,
+      phone: phone,
+      neighborhood: neighborhood,
+      postalCode: postalCode,
+      emergencyContact: emergencyContact,
+      emergencyPhone: emergencyPhone,
     );
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Registro exitoso'),
-          content: Text('Usuario registrado correctamente.'),
+          title: Text('Modificación exitosa'),
+          content:
+              Text('Los datos del usuario han sido modificados correctamente.'),
           actions: <Widget>[
             TextButton(
               child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.pop(
-                    context); // Vuelve a la página de inicio de sesión (login)
               },
             ),
           ],
@@ -69,7 +81,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro de Usuario'),
+        title: Text('Perfil'),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -82,14 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Usuario',
                 ),
-              ),
-              SizedBox(height: 12.0),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                ),
-                obscureText: true,
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -97,6 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Apellido Paterno',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -104,6 +110,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Apellido Materno',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -111,6 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Teléfono',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -118,6 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Colonia',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -125,6 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Código Postal',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -132,6 +142,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Contacto de Emergencia',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 12.0),
               TextField(
@@ -139,11 +150,29 @@ class _RegisterPageState extends State<RegisterPage> {
                 decoration: InputDecoration(
                   labelText: 'Teléfono de Emergencia',
                 ),
+                enabled: false,
               ),
               SizedBox(height: 24.0),
               ElevatedButton(
-                child: Text('Registrarse'),
-                onPressed: _register,
+                child: Text('Modificar'),
+                onPressed: () {
+                  // Habilitar la edición de los campos
+                  setState(() {
+                    _usernameController..enabled = true;
+                    _lastNameController..enabled = true;
+                    _maternalLastNameController..enabled = true;
+                    _phoneController..enabled = true;
+                    _neighborhoodController..enabled = true;
+                    _postalCodeController..enabled = true;
+                    _emergencyContactController..enabled = true;
+                    _emergencyPhoneController..enabled = true;
+                  });
+                },
+              ),
+              SizedBox(height: 12.0),
+              ElevatedButton(
+                child: Text('Guardar cambios'),
+                onPressed: _modifyUser,
               ),
             ],
           ),
