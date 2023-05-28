@@ -25,26 +25,31 @@ class HomePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.insert_drive_file),
-            label: 'Información',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_on_outlined),
-            label: 'Localización',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-      ),
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Inicio',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.insert_drive_file),
+              label: 'Información',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_on_outlined),
+              label: 'Localización',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Perfil',
+            ),
+          ],
+          onTap: (int index) {
+            if (index == 3) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfilePage()));
+            }
+          }),
     );
   }
 }
